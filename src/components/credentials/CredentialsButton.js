@@ -1,9 +1,9 @@
 import styled from "styled-components";
 export default function CredentialsButton(props){
-    const {click, text} = props
+    const { text } = props
     return(
         <>
-            <CredentialButton onClick={click}>{text}</CredentialButton>
+            <CredentialButton type="submit">{text}</CredentialButton>
         </>
     )
 }
