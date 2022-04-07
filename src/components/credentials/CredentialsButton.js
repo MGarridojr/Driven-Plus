@@ -10,7 +10,7 @@ export default function CredentialsButton(props){
 const CredentialButton = styled.button`
     color: #FFFFFF;
     background-color: #FF4791;
-    width: 100%;
+    width: 95%;
     height: 52px;
     font-weight: 700;
     font-size: 14px;
