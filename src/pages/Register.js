@@ -5,7 +5,7 @@ import CredentialsButton from "../components/credentials/CredentialsButton";
 import CredentialsInput from "../components/credentials/CredentialsInput";
 import CredentialsLink from "../components/credentials/CredentialsLink";
 import Logo from "../components/Logo";
-import { cpfMask } from "../components/validation/mask";
+import { cpfMask } from "../components/validation/cpfMask";
 export default function Register(){
     const [name, setName] = useState("")
     const [cpf, setCpf] = useState("")
@@ -13,7 +13,6 @@ export default function Register(){
     const [password, setPassword] = useState("")
     const Navigate = useNavigate();
     const registrationData = {
-        // email: email
         email,
         name,
         cpf,
@@ -32,18 +31,18 @@ export default function Register(){
         <>
             <Logo />
             <form onSubmit={SendRegister}>
-                <CredentialsInput type="text" text="Nome" change={(e)=> {
+                <CredentialsInput required type="text" text="Nome" change={(e)=> {
                     setName(e.target.value)
                 }} />
-                <CredentialsInput type="text" text="CPF"change={(e)=> {
+                <CredentialsInput required type="number" text="CPF"change={(e)=> {
                     setCpf(
                         cpfMask(e.target.value)
                     )
                 }}  />
-                <CredentialsInput type="email" text="E-mail" change={(e)=> {
+                <CredentialsInput required type="email" text="E-mail" change={(e)=> {
                     setEmail(e.target.value)
                 }} />
-                <CredentialsInput type="password" text="Senha" change={(e)=> {
+                <CredentialsInput required type="password" text="Senha" change={(e)=> {
                     setPassword(e.target.value)
                 }} />
                 <CredentialsButton text="CADASTRAR" />
