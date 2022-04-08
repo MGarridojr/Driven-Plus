@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import OnClickButton from "../components/credentials/OnClickButton";
 import Context from "../contexts/Context";
@@ -11,6 +11,7 @@ export default function Home() {
     const { membership, name } = userData
     const { perks, image } = membership
     const Navigate = useNavigate()
+    console.log(userData)
 
     function DeleteData(){
         axios.delete("https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions",
@@ -26,7 +27,7 @@ export default function Home() {
             </Header>
             <Body>
                 <p>Olá, {name}</p>
-                {perks.map((perk) => {
+                {perks ? perks.map((perk) => {
                     return (
                         <>
                             <OnClickButton click={() => {
@@ -34,7 +35,9 @@ export default function Home() {
                             }} text={perk.title} />
                         </>
                     )
-                })}
+                })
+                : <></>
+                }
             </Body>
 
             <Footer>

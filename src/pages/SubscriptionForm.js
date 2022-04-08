@@ -46,7 +46,9 @@ export default function SubscriptionForm() {
             config)
             .then((response)=>{
                 const { data } = response
-                setUserData({membership: data })
+                console.log(data)
+                setUserData({...userData,
+                    membership: data.membership })
                 Navigate("/home")
             })
             .catch(Error)
