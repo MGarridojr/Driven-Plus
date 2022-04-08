@@ -2,17 +2,29 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import Logo from "../components/Logo";
 import Context from "../contexts/Context";
 import banknotes from "../assets/banknotesIcon.svg"
 import checklist from "../assets/checklistIcon.svg"
 import CredentialsInput from "../components/credentials/CredentialsInput";
 import CredentialsButton from "../components/credentials/CredentialsButton";
 import MiniInput from "../components/credentials/MiniInput";
+import WindowPopUp from "../components/WindowPopUp";
+import OnClickButton from "../components/credentials/OnClickButton";
 export default function SubscriptionForm() {
-    const { config } = useContext(Context)
+    const { config, setVisible } = useContext(Context)
     const { IDPlan } = useParams()
     const [subscription, setSubscription] = useState([])
+    const [cardName, setCardName] = useState("")
+    const [cardNumber, setCardNumber] = useState("")
+    const [securityNumber, setSecurityNumber] = useState("")
+    const [expirationDate, setExpirationDate] = useState("")
+    const cardData = {
+        membershipId: IDPlan,
+        cardName,
+        cardNumber,
+        securityNumber,
+        expirationDate
+    }
 
     useEffect(() => {
         axios.get(`https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions/memberships/${IDPlan}`,
@@ -21,9 +33,22 @@ export default function SubscriptionForm() {
                     const { data } = response
                     setSubscription(data)
                 })
-                .catch(Error)
+                .catch(()=>{console.log(cardData)})
     }, []
     )
+
+    function sendPaymentData(e){
+        e.preventDefault();
+
+        axios.post("https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions",
+            cardData, 
+            config)
+            .then((response)=>{
+                const { data } = response
+                console.log(data)
+            })
+            .catch(Error)
+    }
     const { perks, image, name, price } = subscription
     return (
         <>
@@ -51,19 +76,27 @@ export default function SubscriptionForm() {
                         </Sections>
                         <p>R${price} cobrados mensalmente</p>
                     </Div>
-                    <form>
-                        <CredentialsInput type="text" text="Nome impresso no cartão" />
-                        <CredentialsInput type="number" text="Digitos do cartão" />
+                    <form onSubmit={sendPaymentData}>
+                        <CredentialsInput type="text" text="Nome impresso no cartão" change={(e)=>{
+                            setCardName(e.target.value)
+                        }} />
+                        <CredentialsInput type="text" text="Numberos do cartão" change={(e)=>{
+                            setCardNumber(e.target.value)
+                        }} />
                         <Sections>
-                            <MiniInput type="number" text="Código de segurança" />
-                            <MiniInput type="text" text="validade" />
+                            <MiniInput type="number" text="Código de segurança" change={(e)=>{
+                            setSecurityNumber(e.target.value)
+                        }} />
+                            <MiniInput type="text" text="validade" change={(e)=>{
+                            setExpirationDate(e.target.value)
+                        }} />
                         </Sections>
-                        <CredentialsButton text="Assinar" />
+                        <OnClickButton click={()=>{setVisible(true)}} text="Assinar" />
                     </form>
+                    <WindowPopUp plan={name} planPrice={price} />                       
                 </>
-            :<>Carregando...</>
-            }
-            
+            :<><p>Carregando...</p></>
+        }
         </>
     )
 }
@@ -72,7 +105,7 @@ const Sections = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    margin-top: 20px;
+    margin-top: 15px;
     margin-bottom: 10px;
 
     > p{
@@ -105,4 +138,5 @@ const LogoContainer = styled.div`
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    margin-top: 40px;
 `;

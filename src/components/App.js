@@ -11,6 +11,7 @@ import GlobalStyle from '../style/GlobalStyle'
 export default function App(){
     const [token, setToken] = useState("")
     const [userName, setUserName] = useState("")
+    const [visible, setVisible] = useState(false)
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
@@ -24,7 +25,9 @@ export default function App(){
                 setToken,
                 userName,
                 setUserName,
-                config
+                config,
+                visible,
+                setVisible
             }}>
                 <BrowserRouter>
                     <Reset />
