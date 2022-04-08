@@ -5,13 +5,21 @@ import OnClickButton from "../components/credentials/OnClickButton";
 import Context from "../contexts/Context";
 import userIcon from "../assets/userIcon.svg"
 import RedButton from "../components/homeButton/RedButton";
+import axios from "axios";
 export default function Home() {
-    const { userData } = useContext(Context)
+    const { userData, config } = useContext(Context)
     const { membership, name } = userData
     const { perks, image } = membership
     const Navigate = useNavigate()
+
+    function DeleteData(){
+        axios.delete("https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions",
+        config)
+        .then(Navigate("/subscriptions"))
+        .catch(Error)
+    }   
     return (
-        <>
+        <>           
             <Header>
                 <img src={image} />
                 <img src={userIcon} />
@@ -34,9 +42,10 @@ export default function Home() {
                     Navigate("/subscriptions")
                 }
                 } text="Mudar plano" />
-                <RedButton text="Cancelar plano" />
+                <RedButton click={()=>{
+                    DeleteData()
+                }} text="Cancelar plano" />
             </Footer>
-
         </>
     )
 }
