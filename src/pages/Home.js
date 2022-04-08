@@ -1,37 +1,43 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import OnClickButton from "../components/credentials/OnClickButton";
 import Context from "../contexts/Context";
 import userIcon from "../assets/userIcon.svg"
 import RedButton from "../components/homeButton/RedButton";
-export default function Home(){
+export default function Home() {
     const { userData } = useContext(Context)
     const { membership, name } = userData
     const { perks, image } = membership
-    return(
+    const Navigate = useNavigate()
+    return (
         <>
-        <Header>
-            <img src={image} />
-            <img src={userIcon} />
-        </Header>
-        <Body>
-         <p>Olá, {name}</p>
-         {perks.map((perk)=>{
-             return(
-                 <>
-                    <OnClickButton text={perk.title} />
-                 </>
-             )
-         })}
-        </Body>
-            
-         <Footer>
-            <OnClickButton text="Mudar plano" />
-            <RedButton text="Cancelar plano" />
-         </Footer>
-         
-         </>
+            <Header>
+                <img src={image} />
+                <img src={userIcon} />
+            </Header>
+            <Body>
+                <p>Olá, {name}</p>
+                {perks.map((perk) => {
+                    return (
+                        <>
+                            <OnClickButton click={() => {
+                                window.location.href = perk.link
+                            }} text={perk.title} />
+                        </>
+                    )
+                })}
+            </Body>
+
+            <Footer>
+                <OnClickButton click={() => {
+                    Navigate("/subscriptions")
+                }
+                } text="Mudar plano" />
+                <RedButton text="Cancelar plano" />
+            </Footer>
+
+        </>
     )
 }
 
