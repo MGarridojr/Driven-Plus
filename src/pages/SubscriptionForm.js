@@ -6,7 +6,6 @@ import Context from "../contexts/Context";
 import banknotes from "../assets/banknotesIcon.svg"
 import checklist from "../assets/checklistIcon.svg"
 import CredentialsInput from "../components/credentials/CredentialsInput";
-import CredentialsButton from "../components/credentials/CredentialsButton";
 import MiniInput from "../components/credentials/MiniInput";
 import WindowPopUp from "../components/WindowPopUp";
 import OnClickButton from "../components/credentials/OnClickButton";
@@ -46,7 +45,6 @@ export default function SubscriptionForm() {
             config)
             .then((response)=>{
                 const { data } = response
-                console.log(data)
                 setUserData({...userData,
                     membership: data.membership })
                 Navigate("/home")

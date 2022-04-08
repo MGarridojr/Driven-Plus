@@ -32,20 +32,50 @@ export default function Login(){
                        
         })
     }
+
+    function persistentLogin(){
+        axios.post("https://mock-api.driven.com.br/api/v4/driven-plus/auth/login", 
+        {
+            email: localStorage.email,
+            password: localStorage.password
+        })
+        .then((response)=>{
+            const {data} = response
+            setToken(data.token)
+            setUserData(data) 
+            {data.membership != null ? 
+                Navigate("/home")
+                : Navigate("/subscriptions")
+            }
+                       
+        })
+    }
+    
     return(
         <>
+        
 
-            <Logo />
-            <form onSubmit={sendLogin}>
-            <CredentialsInput type="email" text="E-mail" change={(e)=> {
-                    setEmail(e.target.value)
-                }}  />
-            <CredentialsInput type="password" text="Senha" change={(e)=> {
-                    setPassword(e.target.value)
-                }} />
-            <CredentialsButton text="ENTRAR" />
-            <CredentialsLink rote="/sign-up" text="Não possuí uma conta? Cadastre-se"></CredentialsLink>
-            </form>
+            {localStorage.email !== "" && localStorage.password !== "" ? 
+            
+            <>
+                <p>Redirecionando...</p>
+                {persistentLogin()}
+            </>
+            :
+                <>   
+                    <Logo />
+                    <form onSubmit={sendLogin}>
+                    <CredentialsInput type="email" text="E-mail" change={(e)=> {
+                            setEmail(e.target.value)
+                        }}  />
+                    <CredentialsInput type="password" text="Senha" change={(e)=> {
+                            setPassword(e.target.value)
+                        }} />
+                    <CredentialsButton text="ENTRAR" />
+                    <CredentialsLink rote="/sign-up" text="Não possuí uma conta? Cadastre-se"></CredentialsLink>
+                    </form>
+                </>
+            }
         </>
     )
 }

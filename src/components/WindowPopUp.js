@@ -34,8 +34,6 @@ const PopUp = styled.div`
     justify-content: center;
     background-color: #FFFFFF;
     border-radius: 12px;
-    top: 25%;
-    left: 17%;
     > p{
         font-size: 18px;
         font-weight: 700;
@@ -53,6 +51,9 @@ const PopUp = styled.div`
 
 const OpaqueBody = styled.div`
     position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.8);
