@@ -9,7 +9,7 @@ import Context from "../contexts/Context";
 export default function Login(){
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const { setToken, setUserName } = useContext(Context)
+    const { setToken, setUserData } = useContext(Context)
     const Navigate = useNavigate()
     const loginData = {
         email,
@@ -22,10 +22,14 @@ export default function Login(){
         .then((response)=>{
             const {data} = response
             setToken(data.token)
-            setUserName(data.name) 
+            setUserData(data) 
             localStorage.setItem("email", loginData.email) 
             localStorage.setItem("password", loginData.password)
-            Navigate("/subscriptions")           
+            {data.membership != null ? 
+                Navigate("/home")
+                : Navigate("/subscriptions")
+            }
+                       
         })
     }
     return(

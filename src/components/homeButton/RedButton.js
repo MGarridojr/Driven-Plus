@@ -1,5 +1,5 @@
 import styled from "styled-components";
-export default function OnClickButton(props){
+export default function RedButton(props){
     const { text, click } = props
     return(
         <>
@@ -9,7 +9,7 @@ export default function OnClickButton(props){
 }
 const CredentialButton = styled.button`
     color: #FFFFFF;
-    background-color: #FF4791;
+    background-color: #FF4747;
     width: 95%;
     min-width: 260px;
     height: 52px;

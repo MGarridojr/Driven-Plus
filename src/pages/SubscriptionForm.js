@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Context from "../contexts/Context";
 import banknotes from "../assets/banknotesIcon.svg"
@@ -11,13 +11,14 @@ import MiniInput from "../components/credentials/MiniInput";
 import WindowPopUp from "../components/WindowPopUp";
 import OnClickButton from "../components/credentials/OnClickButton";
 export default function SubscriptionForm() {
-    const { config, setVisible } = useContext(Context)
+    const { config, setVisible, setUserData, userData } = useContext(Context)
     const { IDPlan } = useParams()
     const [subscription, setSubscription] = useState([])
     const [cardName, setCardName] = useState("")
     const [cardNumber, setCardNumber] = useState("")
     const [securityNumber, setSecurityNumber] = useState("")
     const [expirationDate, setExpirationDate] = useState("")
+    const Navigate = useNavigate()
     const cardData = {
         membershipId: IDPlan,
         cardName,
@@ -45,7 +46,8 @@ export default function SubscriptionForm() {
             config)
             .then((response)=>{
                 const { data } = response
-                console.log(data)
+                setUserData({membership: data })
+                Navigate("/home")
             })
             .catch(Error)
     }
@@ -92,8 +94,8 @@ export default function SubscriptionForm() {
                         }} />
                         </Sections>
                         <OnClickButton click={()=>{setVisible(true)}} text="Assinar" />
+                        <WindowPopUp plan={name} planPrice={price} />                       
                     </form>
-                    <WindowPopUp plan={name} planPrice={price} />                       
                 </>
             :<><p>Carregando...</p></>
         }
