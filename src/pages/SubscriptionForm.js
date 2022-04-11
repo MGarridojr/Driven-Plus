@@ -10,7 +10,7 @@ import MiniInput from "../components/credentials/MiniInput";
 import WindowPopUp from "../components/WindowPopUp";
 import OnClickButton from "../components/credentials/OnClickButton";
 export default function SubscriptionForm() {
-    const { config, setVisible, setUserData, userData } = useContext(Context)
+    const { config, setVisible, setUserData, userData, token } = useContext(Context)
     const { IDPlan } = useParams()
     const [subscription, setSubscription] = useState([])
     const [cardName, setCardName] = useState("")
@@ -25,6 +25,12 @@ export default function SubscriptionForm() {
         securityNumber,
         expirationDate
     }
+    useEffect(()=>{
+        if(!token){
+            Navigate("/")
+        }
+    },[token]
+    )
 
     useEffect(() => {
         axios.get(`https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions/memberships/${IDPlan}`,

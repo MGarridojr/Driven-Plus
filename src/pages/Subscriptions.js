@@ -1,12 +1,19 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Context from "../contexts/Context";
 export default function Subscriptions(){
-    const { config } = useContext(Context);
+    const { config, token } = useContext(Context);
     const [memberships, setMemberships] = useState([])
+    const Navigate = useNavigate()
     
+    useEffect(()=>{
+        if(!token){
+            Navigate("/")
+        }
+    },[token]
+    )
     
     useEffect(()=>{
         axios.get("https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions/memberships", 

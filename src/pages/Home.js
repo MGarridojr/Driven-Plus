@@ -7,11 +7,10 @@ import userIcon from "../assets/userIcon.svg"
 import RedButton from "../components/homeButton/RedButton";
 import axios from "axios";
 import { useEffect } from "react/cjs/react.development";
-import { render } from "react-dom";
 export default function Home() {
     const { userData, config, setToken, setUserData, token } = useContext(Context)
     const { membership, name } = userData
-    const { perks, image } = membership
+    // const { perks, image } = membership
     const Navigate = useNavigate()
 
     function DeleteData(){
@@ -20,45 +19,24 @@ export default function Home() {
         .then(Navigate("/subscriptions"))
         .catch(Error)
     }
+    useEffect(()=>{
+        if(!token){
+            Navigate("/")
+        }
+    },[token]
+    )
     
-    function persistentLoginHome(){
-        axios.post("https://mock-api.driven.com.br/api/v4/driven-plus/auth/login", 
-        {
-            email: localStorage.email,
-            password: localStorage.password
-        })
-        .then((response)=>{
-            const {data} = response
-            setToken(data.token)
-            setUserData(data) 
-            console.log(data)
-            {data.membership != null ? 
-                Navigate("/home")
-                : Navigate("/subscriptions")
-            }
-                       
-        })
-        .catch(()=>alert("Erro"))
-    }   
     return (
-        <>
-        
-            {localStorage.email !== "" && localStorage.password !== "" && token === "" ? 
-                
-            <>
-                <p>Redirecionando...</p>
-                {/* {persistentLoginHome()} */}
-                
-            </>
-            :
-                <>           
+        <>        
+            {token ? 
+                <>                          
                     <Header>
-                        <img src={image} />
+                        <img src={membership.image} />
                         <img src={userIcon} />
                     </Header>
                     <Body>
                         <p>Olá, {name}</p>
-                        {perks ? perks.map((perk) => {
+                        {membership.perks.map((perk) => {
                             return (
                                 <>
                                     <OnClickButton click={() => {
@@ -67,7 +45,7 @@ export default function Home() {
                                 </>
                             )
                         })
-                        : <></>
+                        
                         }
                     </Body>
 
@@ -80,7 +58,11 @@ export default function Home() {
                             DeleteData()
                         }} text="Cancelar plano" />
                     </Footer>
-                </>
+                </>        
+            :
+            <>
+                <p>Carregando...</p>
+            </>
             }
         </>
     )

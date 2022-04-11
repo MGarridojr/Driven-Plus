@@ -50,12 +50,12 @@ export default function Login(){
                        
         })
     }
-    
+    console.log(localStorage.email)
     return(
         <>
         
 
-            {localStorage.email !== "" && localStorage.password !== "" ? 
+            {localStorage.email && localStorage.password  ? 
             
             <>
                 <p>Redirecionando...</p>
