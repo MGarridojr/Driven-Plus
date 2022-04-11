@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import OnClickButton from "../components/credentials/OnClickButton";
@@ -6,7 +6,6 @@ import Context from "../contexts/Context";
 import userIcon from "../assets/userIcon.svg"
 import RedButton from "../components/homeButton/RedButton";
 import axios from "axios";
-import { useEffect } from "react/cjs/react.development";
 export default function Home() {
     const { userData, config, setToken, setUserData, token } = useContext(Context)
     const { membership, name } = userData
