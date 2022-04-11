@@ -31,6 +31,9 @@ export default function Login(){
             }
                        
         })
+        .catch(()=> {
+            alert("Dados Inválidos!")
+        })
     }
 
     function persistentLogin(){
